@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Ahmad Dhafin Al Farisy | Information Systems, Duta FST UNAIR & 2x International Gold Medalist</title>
+  
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Ahmad Dhafin Al Farisy | Portfolio">
+  <meta name="description" content="Official portfolio of Ahmad Dhafin Al Farisy, Information Systems student at Universitas Airlangga (UNAIR), Duta FST 2026, and 2x International Gold Medalist in IoT, Robotics & Applied Science (ISIF & I2ASPO).">
+  <meta name="keywords" content="Ahmad Dhafin Al Farisy, Dhafin UNAIR, Duta FST UNAIR 2026, ISIF 2024 Gold Medal, I2ASPO 2024, MERI Robot, ATP Biawak, Sistem Informasi UNAIR, Student Developer Indonesia">
+  <meta name="author" content="Ahmad Dhafin Al Farisy">
+  <meta name="robots" content="index, follow">
+  
+  <link rel="canonical" href="https://dhafin-dev.github.io">
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dhafin-dev.github.io">
+  <meta property="og:title" content="Ahmad Dhafin Al Farisy | Tech Innovator & Duta FST UNAIR">
+  <meta property="og:description" content="Explore projects in IoT, Robotics, Web Development, and academic honors by Ahmad Dhafin Al Farisy.">
+  <meta property="og:image" content="assets/img/profile/dhafin.webp">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://dhafin-dev.github.io">
+  <meta property="twitter:title" content="Ahmad Dhafin Al Farisy | Portfolio">
+  <meta property="twitter:description" content="Information Systems Student @ UNAIR | Duta FST 2026 | 2x International Gold Medalist">
+  <meta property="twitter:image" content="assets/img/profile/dhafin.webp">
+
+  <!-- Google Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Ahmad Dhafin Al Farisy",
+    "url": "https://dhafin-dev.github.io",
+    "image": "https://dhafin-dev.github.io/assets/img/profile/dhafin.webp",
+    "jobTitle": "Undergraduate Information Systems Student & Researcher",
+    "worksFor": {
+      "@type": "EducationalOrganization",
+      "name": "Universitas Airlangga"
+    },
+    "sameAs": [
+      "https://www.linkedin.com/in/ahmdhafin/",
+      "https://github.com/Dhafin-dev",
+      "https://instagram.com/ahmdhafin"
+    ],
+    "award": [
+      "Gold Medal - International Science and Invention Fair (ISIF 2024)",
+      "Gold Medal - Indonesia International Applied Science Project Olympiad (I2ASPO 2024)",
+      "Duta FST UNAIR 2026",
+      "EF SET C2 Proficient (Score 84/100)"
+    ]
+  }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- AOS (Animate on Scroll) CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+  <!-- Custom CSS Modules -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/glassmorphism.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body class="no-scroll">
+
+  <!-- =========================================================================
+       1. PRELOADER
+       ========================================================================= -->
+  <div id="preloader">
+    <div class="preloader-particles" id="preloaderParticles"></div>
+    <div class="preloader-content">
+      <div class="preloader-glitch-text">DHAFIN<span>.DEV</span></div>
+      <div class="preloader-bar-wrap">
+        <div class="preloader-bar" id="preloaderBar"></div>
+      </div>
+      <div class="preloader-percent" id="preloaderPercent">0%</div>
+    </div>
+  </div>
+
+  <!-- Ambient Glow Background Orbs -->
+  <div class="bg-ambient-orb orb-1"></div>
+  <div class="bg-ambient-orb orb-2"></div>
+  <div class="bg-ambient-orb orb-3"></div>
+  <div class="grid-bg-overlay"></div>
+
+  <!-- =========================================================================
+       2. FLOATING GLASS NAVBAR
+       ========================================================================= -->
+  <div class="navbar-wrapper">
+    <nav class="navbar">
+      <a href="#hero" class="nav-brand">
+        <span class="nav-brand-dot"></span>
+        <span>DHAFIN<span style="color: var(--accent-cyan);">.DEV</span></span>
+      </a>
+
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#hero" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#journey" class="nav-link">Journey</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#github-activity" class="nav-link">GitHub 3D</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="assets/docs/resume.pdf" download="Resume_Ahmad_Dhafin.pdf" class="btn btn-primary nav-btn-resume">
+          <i class="fas fa-file-arrow-down"></i> Resume
+        </a>
+        <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Toggle Menu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- =========================================================================
+       3. HERO SECTION
+       ========================================================================= -->
+  <section id="hero" class="hero-section">
+    <div class="container">
+      <div class="hero-grid">
+        
+        <!-- Left: Text & CTA -->
+        <div class="hero-text-col" data-aos="fade-right">
+          <div class="hero-greeting-pill">
+            <i class="fas fa-sparkles" style="color: var(--accent-gold);"></i>
+            <span>Welcome to My Digital Space</span>
+          </div>
+
+          <h1 class="hero-title">
+            Ahmad Dhafin <br>
+            <span class="gradient-text">Al Farisy</span>
+          </h1>
+
+          <div class="hero-typewriter-container">
+            <span class="hero-typewriter-text" id="typewriterText"></span>
+            <span class="hero-cursor"></span>
+          </div>
+
+          <p class="hero-desc">
+            Bridging the gap between technology and society through software innovation, robotics engineering, and strategic student leadership at Universitas Airlangga.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="#projects" class="btn btn-primary">
+              <i class="fas fa-rocket"></i> Explore Projects
+            </a>
+            <a href="assets/docs/resume.pdf" download="Resume_Ahmad_Dhafin.pdf" class="btn btn-secondary">
+              <i class="fas fa-download"></i> Download CV / Resume
+            </a>
+          </div>
+
+          <div class="hero-socials">
+            <a href="https://www.linkedin.com/in/ahmdhafin/" target="_blank" class="social-circle-btn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://github.com/Dhafin-dev" target="_blank" class="social-circle-btn" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://instagram.com/ahmdhafin" target="_blank" class="social-circle-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="mailto:ahmad.dhafin.al-2024@fst.unair.ac.id" class="social-circle-btn" title="Email"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <!-- Right: 3D Avatar Frame with Floating Badges -->
+        <div class="hero-avatar-wrapper" data-aos="fade-left">
+          <div class="hero-avatar-glow"></div>
+          
+          <div class="floating-hero-badge badge-top-left">
+            <i class="fas fa-crown"></i>
+            <div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Title</div>
+              <div style="font-weight: 700; font-size: 0.85rem; color: #fff;">Duta FST 2026</div>
+            </div>
+          </div>
+
+          <div class="hero-avatar-frame">
+            <img src="assets/img/profile/dhafin.webp" alt="Ahmad Dhafin Al Farisy" class="hero-avatar-img">
+          </div>
+
+          <div class="floating-hero-badge badge-bottom-right">
+            <i class="fas fa-medal"></i>
+            <div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Honors</div>
+              <div style="font-weight: 700; font-size: 0.85rem; color: #fff;">2x Gold Medalist</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       4. ABOUT & HIGHLIGHTS SECTION
+       ========================================================================= -->
+  <section id="about" class="about-section">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-tag"><i class="fas fa-user-astronaut"></i> About Me</span>
+        <h2 class="section-title">Pillars of Excellence</h2>
+        <p class="section-desc">Kombinasi kompetensi riset teknologi terapan, sistem informasi, dan kepemimpinan berwawasan global.</p>
+      </div>
+
+      <div class="highlights-grid">
+        
+        <!-- Card 1: Duta FST -->
+        <div class="glass-card glass-card-gold highlight-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="highlight-icon-box highlight-icon-gold">
+            <i class="fas fa-crown"></i>
+          </div>
+          <h3>Duta FST UNAIR 2026</h3>
+          <p>Terpilih sebagai Duta Fakultas Sains dan Teknologi Universitas Airlangga. Berperan aktif sebagai figur teladan, komunikator sains, dan penggerak inovasi mahasiswa.</p>
+        </div>
+
+        <!-- Card 2: 2x Gold Medalist -->
+        <div class="glass-card glass-card-cyan highlight-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="highlight-icon-box highlight-icon-cyan">
+            <i class="fas fa-award"></i>
+          </div>
+          <h3>2x International Gold</h3>
+          <p>Peraih Medali Emas di ajang <strong>ISIF 2024</strong> (Robot Medis MERI) dan <strong>I2ASPO 2024</strong> (ATP Biawak IoT UGV) dalam kategori applied technology & robotics.</p>
+        </div>
+
+        <!-- Card 3: Language & Academic -->
+        <div class="glass-card glass-card-emerald highlight-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="highlight-icon-box highlight-icon-emerald">
+            <i class="fas fa-language"></i>
+          </div>
+          <h3>C2 Mastery & UKBI 703</h3>
+          <p>Kemahiran bahasa tingkat bilingual tertinggi: <strong>EF SET C2 (84/100)</strong>, ELPT 557, dan predikat <strong>Sangat Unggul (703)</strong> pada Uji Kemahiran Berbahasa Indonesia.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       5. INTERACTIVE JOURNEY & TIMELINE
+       ========================================================================= -->
+  <section id="journey" class="journey-section">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-tag"><i class="fas fa-route"></i> Career & Honors</span>
+        <h2 class="section-title">Milestone Journey</h2>
+        <p class="section-desc">Jejak langkah prestasi, peran kepemimpinan, dan kontribusi riset terapan.</p>
+      </div>
+
+      <div class="timeline-container" id="timelineContainer">
+        <!-- Rendered dynamically by js/journey.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       6. FEATURED PROJECTS GALLERY
+       ========================================================================= -->
+  <section id="projects" class="projects-section">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-tag"><i class="fas fa-cubes"></i> Innovation Portfolio</span>
+        <h2 class="section-title">Featured Innovations</h2>
+        <p class="section-desc">Koleksi karya teknologi mulai dari perangkat keras pintar, sistem IoT, hingga aplikasi web interaktif.</p>
+      </div>
+
+      <!-- Filters -->
+      <div class="gallery-filters" data-aos="fade-up">
+        <button class="filter-btn active" data-filter="all">All Projects</button>
+        <button class="filter-btn" data-filter="iot-robotics">IoT & Robotics</button>
+        <button class="filter-btn" data-filter="web-software">Web & Software</button>
+        <button class="filter-btn" data-filter="ui-ux">UI/UX Design</button>
+      </div>
+
+      <!-- Grid Cards -->
+      <div class="projects-grid" id="projectsGrid">
+        <!-- Rendered dynamically by js/gallery.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       7. 3D GITHUB ACTIVITY VISUALIZER
+       ========================================================================= -->
+  <section id="github-activity" class="github-section">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-tag"><i class="fab fa-github"></i> Open Source</span>
+        <h2 class="section-title">GitHub 3D Activity</h2>
+        <p class="section-desc">Visualisasi 3D interaktif matriks kontribusi dan aktivitas open-source.</p>
+      </div>
+
+      <div class="glass-card github-card-wrapper" data-aos="zoom-in">
+        <!-- Left Stats Panel -->
+        <div class="github-info-panel">
+          <div class="github-info-header">
+            <i class="fab fa-github"></i>
+            <h3 style="font-size: 1.4rem;">Activity Stats</h3>
+          </div>
+          <div class="github-username-text" id="gh-username">@Dhafin-dev</div>
+
+          <div class="github-stat-item">
+            <span class="github-stat-label">Public Repositories</span>
+            <span class="github-stat-num" id="gh-repos">--</span>
+          </div>
+          <div class="github-stat-item">
+            <span class="github-stat-label">GitHub Followers</span>
+            <span class="github-stat-num" id="gh-followers">--</span>
+          </div>
+          <div class="github-stat-item">
+            <span class="github-stat-label">Status</span>
+            <span class="github-stat-num" style="color: var(--accent-emerald);">Active Innovator</span>
+          </div>
+
+          <div style="margin-top: 24px;">
+            <a href="https://github.com/Dhafin-dev" target="_blank" class="btn btn-primary" style="width: 100%; padding: 10px; font-size: 0.88rem;">
+              <i class="fab fa-github"></i> Follow on GitHub
+            </a>
+          </div>
+        </div>
+
+        <!-- Right 3D Canvas -->
+        <div class="github-canvas-container">
+          <div id="github-3d-canvas"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       8. SKILLS MATRIX & OFFICIAL LINKEDIN BADGE
+       ========================================================================= -->
+  <section id="skills" class="skills-section">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-tag"><i class="fas fa-layer-group"></i> Capabilities</span>
+        <h2 class="section-title">Tech Stack & Network</h2>
+        <p class="section-desc">Penguasaan teknologi modern dan integrasi jaringan profesional LinkedIn resmi.</p>
+      </div>
+
+      <div class="skills-linkedin-grid">
+        
+        <!-- Left: Skills Matrix -->
+        <div class="skills-col" data-aos="fade-right">
+          
+          <div class="glass-card skill-category-card">
+            <h3 class="skill-cat-title"><i class="fas fa-code"></i> Programming & Web Development</h3>
+            <div class="skill-badges-flow">
+              <span class="skill-pill"><i class="fab fa-html5" style="color: #e34f26;"></i> HTML5</span>
+              <span class="skill-pill"><i class="fab fa-css3-alt" style="color: #1572b6;"></i> CSS3</span>
+              <span class="skill-pill"><i class="fab fa-js" style="color: #f7df1e;"></i> JavaScript</span>
+              <span class="skill-pill"><i class="fab fa-python" style="color: #3776ab;"></i> Python</span>
+              <span class="skill-pill"><i class="fab fa-php" style="color: #777bb4;"></i> PHP</span>
+              <span class="skill-pill"><i class="fab fa-git-alt" style="color: #f05032;"></i> Git & GitHub</span>
+            </div>
+          </div>
+
+          <div class="glass-card skill-category-card">
+            <h3 class="skill-cat-title"><i class="fas fa-microchip"></i> Hardware, IoT & Robotics</h3>
+            <div class="skill-badges-flow">
+              <span class="skill-pill"><i class="fas fa-robot" style="color: var(--accent-cyan);"></i> Arduino</span>
+              <span class="skill-pill"><i class="fas fa-wifi" style="color: var(--accent-gold);"></i> ESP32 / ESP8266</span>
+              <span class="skill-pill"><i class="fab fa-raspberry-pi" style="color: #c51a4a;"></i> Raspberry Pi</span>
+              <span class="skill-pill"><i class="fas fa-network-wired" style="color: var(--accent-emerald);"></i> IoT Telemetry</span>
+              <span class="skill-pill"><i class="fas fa-cogs" style="color: var(--accent-purple);"></i> Sensor Integration</span>
+            </div>
+          </div>
+
+          <div class="glass-card skill-category-card">
+            <h3 class="skill-cat-title"><i class="fas fa-pen-nib"></i> Design & Productivity</h3>
+            <div class="skill-badges-flow">
+              <span class="skill-pill"><i class="fab fa-figma" style="color: #f24e1e;"></i> Figma</span>
+              <span class="skill-pill"><i class="fas fa-palette" style="color: #00c4cc;"></i> Canva</span>
+              <span class="skill-pill"><i class="fas fa-video" style="color: #fff;"></i> CapCut</span>
+              <span class="skill-pill"><i class="fas fa-file-word" style="color: #d83b01;"></i> Office Suite</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: Official LinkedIn Profile Badge Widget -->
+        <div class="linkedin-col" data-aos="fade-left">
+          <div class="glass-card linkedin-badge-card">
+            <i class="fab fa-linkedin" style="font-size: 2.8rem; color: #0a66c2; margin-bottom: 12px;"></i>
+            <h3 style="font-size: 1.3rem; margin-bottom: 6px;">LinkedIn Official Badge</h3>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 20px;">Terhubung secara profesional di LinkedIn.</p>
+
+            <div class="linkedin-embed-wrapper">
+              <!-- Official LinkedIn Badge Markup -->
+              <div class="badge-base LI-profile-badge" 
+                   data-locale="in_ID" 
+                   data-size="large" 
+                   data-theme="dark" 
+                   data-type="HORIZONTAL" 
+                   data-vanity="ahmdhafin" 
+                   data-version="v1">
+                <a class="badge-base__link LI-simple-link" href="https://id.linkedin.com/in/ahmdhafin?trk=profile-badge">Ahmad Dhafin Al Farisy</a>
+              </div>
+            </div>
+
+            <div style="margin-top: 24px; width: 100%;">
+              <a href="https://www.linkedin.com/in/ahmdhafin/" target="_blank" class="btn btn-primary" style="width: 100%;">
+                <i class="fab fa-linkedin"></i> Buka Profil LinkedIn
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       9. GUESTBOOK & CONTACT SECTION
+       ========================================================================= -->
+  <section id="contact" class="contact-section">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-tag"><i class="fas fa-comments"></i> Get In Touch</span>
+        <h2 class="section-title">Contact & Guestbook</h2>
+        <p class="section-desc">Kirimkan pesan langsung, ajakan kolaborasi, atau tinggalkan jejak sapaan di Buku Tamu.</p>
+      </div>
+
+      <div class="contact-guestbook-grid">
+        
+        <!-- Left: Direct Contact Form -->
+        <div class="glass-card contact-card" data-aos="fade-right">
+          <h3 style="font-size: 1.4rem; margin-bottom: 8px;"><i class="fas fa-paper-plane" style="color: var(--accent-cyan);"></i> Kirim Pesan</h3>
+          <p style="font-size: 0.9rem; margin-bottom: 24px;">Pesan Anda akan langsung terkirim ke email Ahmad Dhafin.</p>
+
+          <form id="contactForm">
+            <div style="margin-bottom: 16px;">
+              <input type="text" id="contactName" class="glass-input" placeholder="Nama Lengkap Anda *" required>
+            </div>
+            <div style="margin-bottom: 16px;">
+              <input type="email" id="contactEmail" class="glass-input" placeholder="Alamat Email Anda *" required>
+            </div>
+            <div style="margin-bottom: 16px;">
+              <input type="text" id="contactSubject" class="glass-input" placeholder="Subjek Pesan / Kolaborasi">
+            </div>
+            <div style="margin-bottom: 20px;">
+              <textarea id="contactMessage" class="glass-input" rows="4" placeholder="Tuliskan pesan Anda secara lengkap di sini... *" required></textarea>
+            </div>
+            <button type="submit" id="contactSubmitBtn" class="btn btn-primary" style="width: 100%;">
+              <i class="fas fa-paper-plane"></i> Kirim Pesan
+            </button>
+          </form>
+        </div>
+
+        <!-- Right: Interactive Guestbook -->
+        <div class="glass-card guestbook-card" data-aos="fade-left">
+          <h3 style="font-size: 1.4rem; margin-bottom: 8px;"><i class="fas fa-book-open" style="color: var(--accent-gold);"></i> Buku Tamu Digital</h3>
+          <p style="font-size: 0.9rem; margin-bottom: 20px;">Tinggalkan jejak ulasan bintang & sapaan untuk portofolio ini.</p>
+
+          <form id="guestbookForm" style="margin-bottom: 24px;">
+            <div style="display: flex; gap: 12px; margin-bottom: 12px;">
+              <input type="text" id="guestbookName" class="glass-input" placeholder="Nama Anda" required style="flex: 1;">
+              <input type="hidden" id="guestbookRatingValue" value="5">
+              <div class="star-rating-select" id="starRatingSelect" title="Beri Rating">
+                <span class="star-item active" data-value="1">★</span>
+                <span class="star-item active" data-value="2">★</span>
+                <span class="star-item active" data-value="3">★</span>
+                <span class="star-item active" data-value="4">★</span>
+                <span class="star-item active" data-value="5">★</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <input type="text" id="guestbookMsg" class="glass-input" placeholder="Tulis pesan sapaan singkat..." required style="flex: 1;">
+              <button type="submit" class="btn btn-gold" style="padding: 10px 18px; border-radius: 12px;">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </form>
+
+          <div class="guestbook-feed" id="guestbookFeed">
+            <!-- Rendered dynamically by js/guestbook.js -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       10. FOOTER
+       ========================================================================= -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <a href="#hero" class="footer-logo">Ahmad Dhafin Al Farisy</a>
+      <p class="footer-sub">Information Systems @ Universitas Airlangga | Duta FST 2026 | Tech Innovator</p>
+      
+      <div style="display: flex; justify-content: center; gap: 16px; margin-bottom: 28px;">
+        <a href="https://www.linkedin.com/in/ahmdhafin/" target="_blank" class="social-circle-btn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://github.com/Dhafin-dev" target="_blank" class="social-circle-btn"><i class="fab fa-github"></i></a>
+        <a href="https://instagram.com/ahmdhafin" target="_blank" class="social-circle-btn"><i class="fab fa-instagram"></i></a>
+        <a href="mailto:ahmad.dhafin.al-2024@fst.unair.ac.id" class="social-circle-btn"><i class="fas fa-envelope"></i></a>
+      </div>
+
+      <div class="footer-copyright">
+        &copy; 2026 Ahmad Dhafin Al Farisy. All rights reserved. Crafted with passion & precision.
+      </div>
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       11. AI CHATBOT WIDGET (GEMINI POWERED)
+       ========================================================================= -->
+  <div class="ai-chatbot-wrapper">
+    <div class="ai-chat-window" id="aiChatWindow">
+      <div class="ai-chat-header">
+        <div class="ai-chat-title-group">
+          <img src="assets/img/profile/dhafin.webp" alt="AI Dhafin" class="ai-chat-avatar">
+          <div>
+            <div class="ai-chat-name">Dhafin AI Assistant</div>
+            <div class="ai-chat-status"><span style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-emerald); display: inline-block;"></span> Online & Ready</div>
+          </div>
+        </div>
+        <button class="ai-chat-close-btn" id="aiChatClose" title="Tutup Chat"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="ai-chat-messages" id="aiChatMessages">
+        <div class="chat-msg bot">
+          Halo! 👋 Saya adalah asisten virtual interaktif Ahmad Dhafin Al Farisy. Ada yang ingin Anda tanyakan seputar inovasi robotika, sistem informasi UNAIR, atau pengalaman Duta FST?
+        </div>
+      </div>
+
+      <form class="ai-chat-input-area" id="aiChatForm">
+        <input type="text" id="aiChatInput" class="ai-chat-input" placeholder="Tanyakan apa saja tentang Dhafin..." autocomplete="off">
+        <button type="submit" class="ai-chat-send-btn" title="Kirim"><i class="fas fa-paper-plane"></i></button>
+      </form>
+    </div>
+
+    <button class="ai-chat-trigger-btn" id="aiChatTrigger" title="Chat dengan Dhafin AI">
+      <i class="fas fa-robot"></i>
+    </button>
+  </div>
+
+  <!-- =========================================================================
+       12. DETAIL MODAL DIALOG
+       ========================================================================= -->
+  <div class="modal-overlay" id="detailModal">
+    <div class="glass-card modal-card">
+      <button class="modal-close-btn" id="modalClose"><i class="fas fa-times"></i></button>
+      <div id="modalBody">
+        <!-- Content dynamically injected -->
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       SCRIPTS (LIBRARIES & MODULES)
+       ========================================================================= -->
+  <!-- Official LinkedIn Badge Script -->
+  <script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
+
+  <!-- Three.js 3D & OrbitControls -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+  <!-- AOS Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+  <!-- Project Application Modules -->
+  <script src="js/config.js"></script>
+  <script src="js/cursor.js"></script>
+  <script src="js/preloader.js"></script>
+  <script src="js/typing.js"></script>
+  <script src="js/journey.js"></script>
+  <script src="js/gallery.js"></script>
+  <script src="js/github3d.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script src="js/guestbook.js"></script>
+  <script src="js/contact.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
