@@ -144,14 +144,17 @@ Fakta Lengkap tentang Ahmad Dhafin Al Farisy:
     let reply = "";
     let geminiSuccess = false;
 
-    // Check if valid Gemini API key is present
-    const apiKey = PORTFOLIO_CONFIG?.api?.geminiKey;
-    if (apiKey && apiKey.startsWith("AIzaSy")) {
+    // Check if API key is present
+    const apiKey = PORTFOLIO_CONFIG?.api?.geminiKey?.trim();
+    if (apiKey && apiKey.length > 5) {
       try {
         const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
         const res = await fetch(endpoint, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            "Content-Type": "application/json",
+            "x-goog-api-key": apiKey
+          },
           body: JSON.stringify({
             systemInstruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
             contents: conversationHistory
@@ -162,8 +165,11 @@ Fakta Lengkap tentang Ahmad Dhafin Al Farisy:
           const data = await res.json();
           reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
           if (reply) geminiSuccess = true;
+        } else {
+          console.warn("Gemini API response not OK:", res.status, await res.text());
         }
       } catch (err) {
+        console.error("Gemini API call error:", err);
         geminiSuccess = false;
       }
     }
