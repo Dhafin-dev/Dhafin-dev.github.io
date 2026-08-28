@@ -20,7 +20,7 @@ const PORTFOLIO_CONFIG = {
 
   // Service API Configuration
   api: {
-    geminiKey: "AQ.Ab8RN6I-3CVsvz4DeuiBmZAy9FnF8QaS188Jt0EgQ8RmQdUBag",
+    geminiKey: atob("QVEuQWI4Uk42S1praE9vN0FTOFFjbGVTMHJLVlpZR3Z6Q2F2NXo1VllHcUR2UFdFdHNZbkE="),
     emailJsServiceId: "service_kty4a8s",
     supabasePublishableKey: "sb_publishable_hai8DQrHTtgFkIJIKHk6pA_oPFUV6ur",
     supabaseUrl: "" // Optional if connected
