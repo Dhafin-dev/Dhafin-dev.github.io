@@ -468,11 +468,11 @@
           <p style="font-size: 0.9rem; margin-bottom: 20px;">Tinggalkan jejak ulasan bintang & pesan sapaan untuk portofolio ini.</p>
 
           <form id="guestbookForm" class="guestbook-form-wrap">
-            <div class="guestbook-inputs-row">
-              <input type="text" id="guestbookName" class="glass-input guestbook-name-input" placeholder="Nama Anda / Organisasi *" required>
-              <input type="hidden" id="guestbookRatingValue" value="5">
-              
-              <!-- Fixed Size Star Rating Component with Absolute Text (Zero Reflow) -->
+            <input type="hidden" id="guestbookRatingValue" value="5">
+
+            <!-- Star Rating Section (At Top) -->
+            <div class="guestbook-rating-top-row">
+              <span class="guestbook-rating-prompt"><i class="fas fa-star" style="color: var(--accent-gold);"></i> Berikan Rating:</span>
               <div class="star-rating-box">
                 <div class="star-rating-select" id="starRatingSelect" title="Pilih Rating Bintang">
                   <span class="star-item active" data-value="1">★</span>
@@ -485,6 +485,12 @@
               </div>
             </div>
 
+            <!-- Name Input Field -->
+            <div class="guestbook-name-row">
+              <input type="text" id="guestbookName" class="glass-input" placeholder="Nama Anda / Organisasi *" required>
+            </div>
+
+            <!-- Message Input & Send Button -->
             <div class="guestbook-msg-row">
               <input type="text" id="guestbookMsg" class="glass-input" placeholder="Tulis pesan atau masukan positif Anda... *" required style="flex: 1;">
               <button type="submit" id="guestbookSubmitBtn" class="btn btn-gold guestbook-send-btn">

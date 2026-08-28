@@ -929,7 +929,7 @@
   gap: 36px;
 }
 
-/* Guestbook Form Layout (Zero-Reflow) */
+/* Guestbook Form Layout (Rating on Top) */
 .guestbook-form-wrap {
   margin-bottom: 24px;
   position: relative;
@@ -938,22 +938,36 @@
   gap: 12px;
 }
 
-.guestbook-inputs-row {
+.guestbook-rating-top-row {
   display: flex;
-  gap: 12px;
   align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.guestbook-name-input {
-  flex: 1;
-  min-width: 0;
+.guestbook-rating-prompt {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.guestbook-name-row {
+  width: 100%;
 }
 
 .star-rating-box {
   width: 155px;
   min-width: 155px;
   max-width: 155px;
-  height: 52px;
+  height: 48px;
   position: relative;
   display: flex;
   flex-direction: column;
