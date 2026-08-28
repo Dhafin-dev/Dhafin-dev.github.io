@@ -1,5 +1,5 @@
 /* ==========================================================================
-   DYNAMIC GUESTBOOK & REAL-TIME CLOUD PERSISTENCE
+   DYNAMIC GUESTBOOK WITH TRUE CLOUD DATABASE PERSISTENCE (FLICKER-FREE)
    Ahmad Dhafin Al Farisy - Portfolio
    ========================================================================== */
 
@@ -15,10 +15,10 @@
 
   if (!form || !feed) return;
 
-  const STORAGE_KEY = "dhafin_portfolio_guestbook_v2";
+  const STORAGE_KEY = "dhafin_portfolio_guestbook_v3";
 
-  // Cloud API Endpoint for Real-time Cross-Device Persistence
-  const CLOUD_SYNC_ENDPOINT = "https://api.counterapi.dev/v1/dhafin_dev_guestbook";
+  // Cloud Realtime Storage Sync (Global Relay for GitHub Pages)
+  const CLOUD_GUESTBOOK_URL = "https://jsonblob.com/api/jsonBlob/1277682390234710016";
 
   // Star Rating Text Descriptions
   const RATING_DESCRIPTIONS = {
@@ -38,7 +38,7 @@
     "linear-gradient(135deg, #8b5cf6, #3b82f6)"
   ];
 
-  // Default Initial Community Entries
+  // Default Seed Community Entries
   const defaultEntries = [
     {
       id: "gb-1",
@@ -62,6 +62,19 @@
       timestamp: Date.now() - 1000 * 60 * 60 * 12
     }
   ];
+
+  // Supabase Client Initialization (if URL & Key are present)
+  let supabaseClient = null;
+  const sbUrl = PORTFOLIO_CONFIG?.api?.supabaseUrl;
+  const sbKey = PORTFOLIO_CONFIG?.api?.supabasePublishableKey;
+
+  if (sbUrl && sbKey && typeof window.supabase !== "undefined") {
+    try {
+      supabaseClient = window.supabase.createClient(sbUrl, sbKey);
+    } catch (e) {
+      console.warn("Supabase init info:", e);
+    }
+  }
 
   function getInitials(name) {
     if (!name) return "D";
@@ -136,7 +149,7 @@
       const stars = "★".repeat(rating) + "☆".repeat(5 - rating);
       const initials = getInitials(entry.name);
       const bgGrad = getAvatarGradient(entry.name);
-      const timeStr = formatTimeAgo(entry.timestamp);
+      const timeStr = formatTimeAgo(entry.timestamp || (entry.created_at ? new Date(entry.created_at).getTime() : Date.now()));
 
       return `
         <div class="guestbook-entry" data-entry-id="${entry.id}">
@@ -159,12 +172,53 @@
   }
 
   // =========================================================================
-  // INTERACTIVE STAR PICKER (HOVER + CLICK SOUND/TOOLTIP)
+  // CLOUD DATABASE SYNC ENGINE (REAL-TIME FETCH)
   // =========================================================================
+  async function fetchCloudEntries() {
+    // 1. Try Supabase if client is active
+    if (supabaseClient) {
+      try {
+        const { data, error } = await supabaseClient
+          .from("guestbook")
+          .select("*")
+          .order("created_at", { ascending: false })
+          .limit(50);
+
+        if (!error && data && data.length > 0) {
+          saveLocalEntries(data);
+          renderFeed(data);
+          return;
+        }
+      } catch (err) {
+        console.warn("Supabase fetch fallback:", err);
+      }
+    }
+
+    // 2. Try Global Cloud Sync Relay
+    try {
+      const res = await fetch(CLOUD_GUESTBOOK_URL, { method: "GET" });
+      if (res.ok) {
+        const cloudData = await res.json();
+        if (Array.isArray(cloudData) && cloudData.length > 0) {
+          saveLocalEntries(cloudData);
+          renderFeed(cloudData);
+        }
+      }
+    } catch (e) {
+      // Offline fallback: render existing local storage
+      renderFeed(getLocalEntries());
+    }
+  }
+
+  // =========================================================================
+  // 100% FLICKER-FREE STAR RATING ENGINE
+  // =========================================================================
+  let selectedRating = 5;
+
   if (starContainer && ratingInput) {
     const stars = starContainer.querySelectorAll(".star-item");
 
-    function setStarActive(val) {
+    function updateStarUI(val) {
       stars.forEach(s => {
         const sVal = parseInt(s.getAttribute("data-value"), 10);
         if (sVal <= val) {
@@ -178,27 +232,34 @@
       }
     }
 
-    stars.forEach(star => {
-      star.addEventListener("mouseenter", () => {
-        const val = parseInt(star.getAttribute("data-value"), 10);
-        setStarActive(val);
-      });
+    // Smooth hover delegation without hitbox shifts
+    starContainer.addEventListener("mousemove", (e) => {
+      const star = e.target.closest(".star-item");
+      if (star) {
+        const hoverVal = parseInt(star.getAttribute("data-value"), 10);
+        updateStarUI(hoverVal);
+      }
+    });
 
-      star.addEventListener("click", () => {
-        const val = parseInt(star.getAttribute("data-value"), 10);
-        ratingInput.value = val;
-        setStarActive(val);
-      });
+    starContainer.addEventListener("click", (e) => {
+      const star = e.target.closest(".star-item");
+      if (star) {
+        selectedRating = parseInt(star.getAttribute("data-value"), 10);
+        ratingInput.value = selectedRating;
+        updateStarUI(selectedRating);
+      }
     });
 
     starContainer.addEventListener("mouseleave", () => {
-      const currentVal = parseInt(ratingInput.value || "5", 10);
-      setStarActive(currentVal);
+      updateStarUI(selectedRating);
     });
+
+    // Initial state
+    updateStarUI(selectedRating);
   }
 
   // =========================================================================
-  // SUBMIT HANDLER WITH CONFETTI & REAL-TIME SAVE
+  // SUBMIT HANDLER WITH CLOUD SAVE & CONFETTI
   // =========================================================================
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -208,7 +269,7 @@
 
     const name = nameInput.value.trim();
     const message = msgInput.value.trim();
-    const rating = parseInt(ratingInput?.value || "5", 10);
+    const rating = parseInt(ratingInput?.value || selectedRating || "5", 10);
 
     if (!name || !message) return;
 
@@ -222,26 +283,55 @@
       name,
       rating,
       message,
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      created_at: new Date().toISOString()
     };
 
-    // 1. Update Local Feed Immediately
+    // 1. Optimistic Local Update
     const entries = getLocalEntries();
     entries.unshift(newEntry);
     saveLocalEntries(entries);
     renderFeed(entries);
 
-    // 2. Trigger Colorful Confetti Burst Effect
+    // 2. Trigger Confetti Effect
     if (typeof confetti !== "undefined") {
       confetti({
-        particleCount: 60,
-        spread: 70,
+        particleCount: 70,
+        spread: 80,
         origin: { y: 0.8 },
         colors: ['#00f3ff', '#f59e0b', '#10b981', '#bc13fe']
       });
     }
 
-    // 3. Reset Inputs
+    // 3. Save to Cloud in Background
+    (async () => {
+      // Save to Supabase if client is ready
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from("guestbook").insert([{
+            name: newEntry.name,
+            rating: newEntry.rating,
+            message: newEntry.message,
+            created_at: newEntry.created_at
+          }]);
+        } catch (err) {
+          console.warn("Supabase insert error:", err);
+        }
+      }
+
+      // Save to Cloud Sync Relay
+      try {
+        await fetch(CLOUD_GUESTBOOK_URL, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(entries.slice(0, 50))
+        });
+      } catch (err) {
+        console.warn("Cloud relay save error:", err);
+      }
+    })();
+
+    // 4. Reset Inputs
     nameInput.value = "";
     msgInput.value = "";
 
@@ -254,6 +344,7 @@
     }
   });
 
-  // Initial Load & Render
+  // Initial Load (Local First, then Cloud Sync)
   renderFeed(getLocalEntries());
+  fetchCloudEntries();
 })();
