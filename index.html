@@ -467,33 +467,21 @@
           </div>
           <p style="font-size: 0.9rem; margin-bottom: 20px;">Tinggalkan jejak ulasan bintang & pesan sapaan untuk portofolio ini.</p>
 
-          <form id="guestbookForm" class="guestbook-form-wrap">
-            <input type="hidden" id="guestbookRatingValue" value="5">
-
-            <!-- Star Rating Section (At Top) -->
-            <div class="guestbook-rating-top-row">
-              <span class="guestbook-rating-prompt"><i class="fas fa-star" style="color: var(--accent-gold);"></i> Berikan Rating:</span>
-              <div class="star-rating-box">
-                <div class="star-rating-select" id="starRatingSelect" title="Pilih Rating Bintang">
-                  <span class="star-item active" data-value="1">★</span>
-                  <span class="star-item active" data-value="2">★</span>
-                  <span class="star-item active" data-value="3">★</span>
-                  <span class="star-item active" data-value="4">★</span>
-                  <span class="star-item active" data-value="5">★</span>
-                </div>
-                <div class="star-rating-label" id="starRatingLabel">5.0 - Sempurna! 🌟</div>
+          <form id="guestbookForm" style="margin-bottom: 24px;">
+            <div style="display: flex; gap: 12px; margin-bottom: 12px; align-items: center;">
+              <input type="text" id="guestbookName" class="glass-input" placeholder="Nama Anda / Organisasi *" required style="flex: 1;">
+              <input type="hidden" id="guestbookRatingValue" value="5">
+              <div class="star-rating-select" id="starRatingSelect" title="Beri Rating Bintang">
+                <span class="star-item active" data-value="1">★</span>
+                <span class="star-item active" data-value="2">★</span>
+                <span class="star-item active" data-value="3">★</span>
+                <span class="star-item active" data-value="4">★</span>
+                <span class="star-item active" data-value="5">★</span>
               </div>
             </div>
-
-            <!-- Name Input Field -->
-            <div class="guestbook-name-row">
-              <input type="text" id="guestbookName" class="glass-input" placeholder="Nama Anda / Organisasi *" required>
-            </div>
-
-            <!-- Message Input & Send Button -->
-            <div class="guestbook-msg-row">
-              <input type="text" id="guestbookMsg" class="glass-input" placeholder="Tulis pesan atau masukan positif Anda... *" required style="flex: 1;">
-              <button type="submit" id="guestbookSubmitBtn" class="btn btn-gold guestbook-send-btn">
+            <div style="display: flex; gap: 10px;">
+              <input type="text" id="guestbookMsg" class="glass-input" placeholder="Tulis pesan sapaan atau masukan positif..." required style="flex: 1;">
+              <button type="submit" id="guestbookSubmitBtn" class="btn btn-gold" style="padding: 10px 20px; border-radius: 12px; white-space: nowrap;">
                 <i class="fas fa-paper-plane"></i> Kirim
               </button>
             </div>

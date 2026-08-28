@@ -923,71 +923,17 @@
 /* --------------------------------------------------------------------------
    10. GUESTBOOK & CONTACT SECTION
    -------------------------------------------------------------------------- */
-.contact-guestbook-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 36px;
-}
-
-/* Guestbook Form Layout (Rating on Top) */
-.guestbook-form-wrap {
-  margin-bottom: 24px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.guestbook-rating-top-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 16px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--glass-border);
-  border-radius: 14px;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.guestbook-rating-prompt {
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.guestbook-name-row {
-  width: 100%;
-}
-
-.star-rating-box {
-  width: 155px;
-  min-width: 155px;
-  max-width: 155px;
-  height: 48px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-}
-
 .star-rating-select {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 2px;
-  padding: 3px 8px;
+  gap: 3px;
+  padding: 6px 12px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--glass-border);
   border-radius: 50px;
   cursor: pointer;
   user-select: none;
-  height: 28px;
+  height: 44px;
   box-sizing: border-box;
 }
 
@@ -1002,40 +948,11 @@
   transition: color 0.15s ease, text-shadow 0.15s ease;
   user-select: none;
   line-height: 1;
-  pointer-events: auto;
 }
 
 .star-rating-select .star-item.active {
   color: var(--accent-gold);
   text-shadow: 0 0 10px rgba(245, 158, 11, 0.6);
-}
-
-.star-rating-label {
-  position: absolute;
-  bottom: 2px;
-  left: 0;
-  right: 0;
-  height: 16px;
-  line-height: 16px;
-  font-size: 0.72rem;
-  color: var(--accent-gold);
-  font-family: var(--font-mono);
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  pointer-events: none;
-}
-
-.guestbook-msg-row {
-  display: flex;
-  gap: 10px;
-}
-
-.guestbook-send-btn {
-  padding: 10px 20px;
-  border-radius: 12px;
-  white-space: nowrap;
 }
 
 .guestbook-feed {
