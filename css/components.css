@@ -935,60 +935,115 @@
 
 .star-rating-select {
   display: flex;
-  gap: 8px;
-  font-size: 1.3rem;
+  gap: 6px;
+  font-size: 1.4rem;
   color: var(--text-muted);
   cursor: pointer;
-  margin-bottom: 16px;
 }
 
 .star-rating-select .star-item {
-  transition: color var(--transition-fast);
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.2s ease, text-shadow 0.2s ease;
+  display: inline-block;
+  user-select: none;
 }
 
-.star-rating-select .star-item.active,
 .star-rating-select .star-item:hover {
+  transform: scale(1.35) rotate(-5deg);
+}
+
+.star-rating-select .star-item.active {
   color: var(--accent-gold);
+  text-shadow: 0 0 12px rgba(245, 158, 11, 0.6);
 }
 
 .guestbook-feed {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  max-height: 320px;
+  gap: 12px;
+  max-height: 340px;
   overflow-y: auto;
-  margin-top: 20px;
+  margin-top: 18px;
   padding-right: 6px;
+  scroll-behavior: smooth;
 }
 
 .guestbook-entry {
   padding: 14px 18px;
   background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--glass-border);
-  border-radius: 14px;
+  border-radius: 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  transition: all var(--transition-normal);
+  animation: guestbookSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.guestbook-entry:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(0, 243, 255, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.guestbook-avatar-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.guestbook-body {
+  flex: 1;
 }
 
 .guestbook-entry-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .guestbook-entry-name {
-  font-weight: 600;
+  font-weight: 700;
   color: #fff;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
+  letter-spacing: -0.2px;
 }
 
 .guestbook-entry-stars {
   color: var(--accent-gold);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+
+.guestbook-entry-time {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  display: block;
 }
 
 .guestbook-entry-msg {
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   color: var(--text-secondary);
+  line-height: 1.55;
+  word-break: break-word;
+}
+
+@keyframes guestbookSlideIn {
+  from { opacity: 0; transform: translateY(-12px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 /* --------------------------------------------------------------------------
