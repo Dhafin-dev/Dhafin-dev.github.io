@@ -22,7 +22,7 @@ const PORTFOLIO_CONFIG = {
   api: {
     geminiKey: atob("QVEuQWI4Uk42S1praE9vN0FTOFFjbGVTMHJLVlpZR3Z6Q2F2NXo1VllHcUR2UFdFdHNZbkE="),
     emailJsServiceId: "service_kty4a8s",
-    supabasePublishableKey: "sb_publishable_hai8DQrHTtgFkIJIKHk6pA_oPFUV6ur",
+    supabasePublishableKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1oa3Ryc2RhZWhyZGtydmlrbHdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc5MjA4ODgsImV4cCI6MjEwMzQ5Njg4OH0.DOuse9RUhGbesDOwCgqwk04gqOlZ3Wbf572CQK9mP8o",
     supabaseUrl: "https://mhktrsdaehrdkrviklws.supabase.co"
   },
 
