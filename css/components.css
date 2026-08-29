@@ -1364,3 +1364,31 @@
   padding-top: 24px;
 }
 
+/* --------------------------------------------------------------------------
+   14. DESKTOP SOFT GLOWING ORB CLICK EFFECT (AESTHETIC & ULTRA-LIGHT)
+   -------------------------------------------------------------------------- */
+.click-soft-orb {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999999;
+  transform: translate3d(-50%, -50%, 0);
+  animation: softOrbDrift 0.65s cubic-bezier(0.16, 0.85, 0.35, 1) forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes softOrbDrift {
+  0% {
+    transform: translate3d(-50%, -50%, 0) translate3d(0, 0, 0) scale(0.5);
+    opacity: var(--orb-opacity, 0.55);
+  }
+  60% {
+    opacity: var(--orb-opacity, 0.55);
+  }
+  100% {
+    transform: translate3d(-50%, -50%, 0) translate3d(var(--tx), var(--ty), 0) scale(1.4);
+    opacity: 0;
+  }
+}
+
+
