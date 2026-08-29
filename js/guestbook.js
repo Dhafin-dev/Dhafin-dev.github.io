@@ -1,9 +1,9 @@
 /* ==========================================================================
-   DYNAMIC GUESTBOOK & 100% VERIFIED REAL-TIME CLOUD PERSISTENCE
+   DYNAMIC GUESTBOOK (100% LIVE SUPABASE DATABASE - NO DUMMY DATA)
    Ahmad Dhafin Al Farisy - Portfolio
    ========================================================================== */
 
-(function initDynamicGuestbook() {
+(function initLiveGuestbook() {
   const form = document.getElementById("guestbookForm");
   const feed = document.getElementById("guestbookFeed");
   const starContainer = document.getElementById("starRatingSelect");
@@ -14,10 +14,7 @@
 
   if (!form || !feed) return;
 
-  const STORAGE_KEY = "dhafin_portfolio_guestbook_live_v1";
-
-  // Live Verified Cloud REST Database (Global Sync Across PC, Mobile, and All Visitors)
-  const CLOUD_DB_ENDPOINT = "https://api.restful-api.dev/objects/ff8081819ff5b11001a04b9f02125913";
+  const STORAGE_KEY = "dhafin_guestbook_pure_supabase_v1";
 
   // Avatar Gradient Palettes
   const AVATAR_GRADIENTS = [
@@ -28,32 +25,7 @@
     "linear-gradient(135deg, #8b5cf6, #3b82f6)"
   ];
 
-  // Default Seed Community Entries
-  const defaultEntries = [
-    {
-      id: "gb-1",
-      name: "Sivitas Akademika UNAIR",
-      rating: 5,
-      message: "Bangga melihat kiprah dan prestasi robot MERI & Biawak dari Dhafin. Sukses selalu untuk amanah Duta FST 2026!",
-      timestamp: Date.now() - 1000 * 60 * 60 * 24 * 2
-    },
-    {
-      id: "gb-2",
-      name: "International Researcher / ISIF Colleague",
-      rating: 5,
-      message: "Spectacular innovation on medical robotics and IoT defense prototyping. Very inspiring work!",
-      timestamp: Date.now() - 1000 * 60 * 60 * 24 * 4
-    },
-    {
-      id: "gb-3",
-      name: "Tech Enthusiast & Student Dev",
-      rating: 5,
-      message: "Portofolio yang sangat futuristik dan clean. Kombinasi hardware IoT dan web development-nya keren banget!",
-      timestamp: Date.now() - 1000 * 60 * 60 * 12
-    }
-  ];
-
-  // Supabase Client Initialization (if URL & Key are present)
+  // Supabase Client Initialization
   let supabaseClient = null;
   const sbUrl = PORTFOLIO_CONFIG?.api?.supabaseUrl;
   const sbKey = PORTFOLIO_CONFIG?.api?.supabasePublishableKey;
@@ -62,7 +34,7 @@
     try {
       supabaseClient = window.supabase.createClient(sbUrl, sbKey);
     } catch (e) {
-      console.warn("Supabase client init:", e);
+      console.warn("Supabase client init error:", e);
     }
   }
 
@@ -85,7 +57,8 @@
   function formatTimeAgo(timestamp) {
     if (!timestamp) return "Baru saja";
     const now = Date.now();
-    const diffSec = Math.floor((now - timestamp) / 1000);
+    const timeMs = typeof timestamp === "number" ? timestamp : new Date(timestamp).getTime();
+    const diffSec = Math.floor((now - timeMs) / 1000);
 
     if (diffSec < 60) return "Baru saja";
     if (diffSec < 3600) return `${Math.floor(diffSec / 60)} menit yang lalu`;
@@ -94,7 +67,7 @@
     if (diffDays === 1) return "Kemarin";
     if (diffDays < 30) return `${diffDays} hari yang lalu`;
 
-    const d = new Date(timestamp);
+    const d = new Date(timeMs);
     return d.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
   }
 
@@ -111,9 +84,9 @@
   function getLocalEntries() {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
-      return stored ? JSON.parse(stored) : defaultEntries;
+      return stored ? JSON.parse(stored) : [];
     } catch (e) {
-      return defaultEntries;
+      return [];
     }
   }
 
@@ -124,7 +97,11 @@
   }
 
   function updateStats(entries) {
-    if (!entries.length) return;
+    if (!entries || !entries.length) {
+      if (avgRatingEl) avgRatingEl.textContent = "5.0";
+      if (totalCountEl) totalCountEl.textContent = "0";
+      return;
+    }
     const total = entries.length;
     const sum = entries.reduce((acc, curr) => acc + (Number(curr.rating) || 5), 0);
     const avg = (sum / total).toFixed(1);
@@ -135,7 +112,14 @@
 
   function renderFeed(entries) {
     if (!entries || !entries.length) {
-      entries = defaultEntries;
+      feed.innerHTML = `
+        <div style="text-align: center; padding: 36px 16px; color: var(--text-muted); font-size: 0.9rem;">
+          <i class="far fa-comment-dots" style="font-size: 2.2rem; color: var(--accent-cyan); display: block; margin-bottom: 12px; opacity: 0.8;"></i>
+          Belum ada pesan ulasan. Jadilah yang pertama meninggalkan sapaan!
+        </div>
+      `;
+      updateStats([]);
+      return;
     }
 
     feed.innerHTML = entries.map(entry => {
@@ -143,7 +127,7 @@
       const stars = "★".repeat(rating) + "☆".repeat(5 - rating);
       const initials = getInitials(entry.name);
       const bgGrad = getAvatarGradient(entry.name);
-      const timeStr = formatTimeAgo(entry.timestamp || (entry.created_at ? new Date(entry.created_at).getTime() : Date.now()));
+      const timeStr = formatTimeAgo(entry.created_at || entry.timestamp || Date.now());
 
       return `
         <div class="guestbook-entry" data-entry-id="${entry.id || ''}">
@@ -166,34 +150,18 @@
   }
 
   // =========================================================================
-  // CLOUD DATABASE SYNC ENGINE (REAL-TIME FETCH)
+  // SUPABASE REAL-TIME FETCH ENGINE
   // =========================================================================
-  async function fetchCloudEntries() {
-    // 1. Fetch from Verified Global Cloud REST Database
-    try {
-      const res = await fetch(CLOUD_DB_ENDPOINT, { cache: "no-store" });
-      if (res.ok) {
-        const json = await res.json();
-        if (json && json.data && Array.isArray(json.data.entries) && json.data.entries.length > 0) {
-          saveLocalEntries(json.data.entries);
-          renderFeed(json.data.entries);
-          return;
-        }
-      }
-    } catch (err) {
-      console.warn("Cloud REST DB fetch notice:", err);
-    }
-
-    // 2. Try Supabase if configured
+  async function fetchLiveEntries() {
     if (supabaseClient) {
       try {
         const { data, error } = await supabaseClient
           .from("guestbook")
           .select("*")
           .order("created_at", { ascending: false })
-          .limit(50);
+          .limit(100);
 
-        if (!error && data && data.length > 0) {
+        if (!error && data) {
           saveLocalEntries(data);
           renderFeed(data);
           return;
@@ -203,7 +171,23 @@
       }
     }
 
-    // 3. Fallback to LocalStorage
+    // Direct REST API fallback if JS client is busy
+    try {
+      const res = await fetch(`${sbUrl}/rest/v1/guestbook?select=*&order=created_at.desc`, {
+        headers: {
+          "apikey": sbKey,
+          "Authorization": `Bearer ${sbKey}`
+        }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        saveLocalEntries(data);
+        renderFeed(data);
+        return;
+      }
+    } catch (e) {}
+
+    // Offline cache fallback
     renderFeed(getLocalEntries());
   }
 
@@ -251,7 +235,7 @@
   }
 
   // =========================================================================
-  // SUBMIT HANDLER WITH CLOUD SAVE & CONFETTI
+  // SUBMIT HANDLER DIRECTLY TO SUPABASE
   // =========================================================================
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -271,22 +255,19 @@
     }
 
     const newEntry = {
-      id: "gb-" + Date.now(),
       name,
       rating,
       message,
-      timestamp: Date.now(),
       created_at: new Date().toISOString()
     };
 
-    // 1. Optimistic Local Update
+    // 1. Optimistic Local Feed Update
     const currentEntries = getLocalEntries();
     currentEntries.unshift(newEntry);
-    const updatedEntries = currentEntries.slice(0, 50); // Keep latest 50
-    saveLocalEntries(updatedEntries);
-    renderFeed(updatedEntries);
+    saveLocalEntries(currentEntries);
+    renderFeed(currentEntries);
 
-    // 2. Trigger Confetti
+    // 2. Trigger Confetti Effect
     if (typeof confetti !== "undefined") {
       confetti({
         particleCount: 65,
@@ -296,37 +277,27 @@
       });
     }
 
-    // 3. Persist to Global Cloud Database
-    (async () => {
-      try {
-        await fetch(CLOUD_DB_ENDPOINT, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: "Dhafin Portfolio Guestbook",
-            data: {
-              entries: updatedEntries
-            }
-          })
-        });
-      } catch (err) {
-        console.error("Cloud DB sync error:", err);
-      }
-
-      // Also persist to Supabase if configured
+    // 3. Save to Supabase Database
+    try {
       if (supabaseClient) {
-        try {
-          await supabaseClient.from("guestbook").insert([{
-            name: newEntry.name,
-            rating: newEntry.rating,
-            message: newEntry.message,
-            created_at: newEntry.created_at
-          }]);
-        } catch (err) {
-          console.warn("Supabase insert error:", err);
-        }
+        await supabaseClient.from("guestbook").insert([newEntry]);
+      } else {
+        await fetch(`${sbUrl}/rest/v1/guestbook`, {
+          method: "POST",
+          headers: {
+            "apikey": sbKey,
+            "Authorization": `Bearer ${sbKey}`,
+            "Content-Type": "application/json",
+            "Prefer": "return=representation"
+          },
+          body: JSON.stringify(newEntry)
+        });
       }
-    })();
+      // Re-fetch to synchronize real Supabase IDs & timestamps
+      setTimeout(fetchLiveEntries, 800);
+    } catch (err) {
+      console.error("Supabase live save error:", err);
+    }
 
     // 4. Reset Inputs
     nameInput.value = "";
@@ -341,10 +312,9 @@
     }
   });
 
-  // Initial Load (Local First, then Sync Cloud)
-  renderFeed(getLocalEntries());
-  fetchCloudEntries();
+  // Initial Real Data Fetch
+  fetchLiveEntries();
 
-  // Periodic Auto-Sync every 30 seconds for live updates
-  setInterval(fetchCloudEntries, 30000);
+  // Periodic Auto-Sync with Supabase every 15 seconds
+  setInterval(fetchLiveEntries, 15000);
 })();
