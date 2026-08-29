@@ -1,68 +1,64 @@
 /* ==========================================================================
-   DESKTOP CUSTOM CURSOR & SOFT GLOWING ORB CLICK EFFECT
+   SMART MULTI-DEVICE CURSOR & SOFT GLOWING ORBS ON TAP / CLICK
    Ahmad Dhafin Al Farisy - Portfolio
    ========================================================================== */
 
-(function initDesktopCursorAndSoftOrbs() {
-  // Strict Mobile / Touch Device Check
+(function initSmartCursorAndSoftOrbs() {
   const isTouchDevice = window.matchMedia("(hover: none) and (pointer: coarse)").matches || "ontouchstart" in window;
 
-  // On Mobile / Touchscreen: Terminate immediately to ensure 100% native hardware scroll speed
-  if (isTouchDevice) {
-    return;
-  }
-
   // =========================================================================
-  // 1. DESKTOP-ONLY SMOOTH GLOW CURSOR
+  // 1. DESKTOP-ONLY SMOOTH GLOW CURSOR (HOVER SCREENS)
   // =========================================================================
-  const cursorGlow = document.createElement("div");
-  cursorGlow.className = "cursor-glow";
-  document.body.appendChild(cursorGlow);
+  if (!isTouchDevice) {
+    const cursorGlow = document.createElement("div");
+    cursorGlow.className = "cursor-glow";
+    document.body.appendChild(cursorGlow);
 
-  const cursorDot = document.createElement("div");
-  cursorDot.className = "cursor-dot";
-  document.body.appendChild(cursorDot);
+    const cursorDot = document.createElement("div");
+    cursorDot.className = "cursor-dot";
+    document.body.appendChild(cursorDot);
 
-  let mouseX = window.innerWidth / 2;
-  let mouseY = window.innerHeight / 2;
-  let glowX = mouseX;
-  let glowY = mouseY;
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let glowX = mouseX;
+    let glowY = mouseY;
 
-  window.addEventListener("mousemove", (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+    window.addEventListener("mousemove", (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
 
-    cursorDot.style.left = `${mouseX}px`;
-    cursorDot.style.top = `${mouseY}px`;
-  }, { passive: true });
+      cursorDot.style.left = `${mouseX}px`;
+      cursorDot.style.top = `${mouseY}px`;
+    }, { passive: true });
 
-  function renderCursorGlow() {
-    glowX += (mouseX - glowX) * 0.12;
-    glowY += (mouseY - glowY) * 0.12;
+    function renderCursorGlow() {
+      glowX += (mouseX - glowX) * 0.12;
+      glowY += (mouseY - glowY) * 0.12;
 
-    cursorGlow.style.left = `${glowX}px`;
-    cursorGlow.style.top = `${glowY}px`;
+      cursorGlow.style.left = `${glowX}px`;
+      cursorGlow.style.top = `${glowY}px`;
 
+      requestAnimationFrame(renderCursorGlow);
+    }
     requestAnimationFrame(renderCursorGlow);
+
+    const interactiveTargets = "a, button, input, textarea, select, .glass-card, .filter-btn, .timeline-card, .social-circle-btn, .ai-chat-trigger-btn, .star-item";
+
+    document.addEventListener("mouseover", (e) => {
+      if (e.target.closest(interactiveTargets)) {
+        cursorDot.classList.add("cursor-hover");
+      }
+    });
+
+    document.addEventListener("mouseout", (e) => {
+      if (e.target.closest(interactiveTargets)) {
+        cursorDot.classList.remove("cursor-hover");
+      }
+    });
   }
-  requestAnimationFrame(renderCursorGlow);
-
-  const interactiveTargets = "a, button, input, textarea, select, .glass-card, .filter-btn, .timeline-card, .social-circle-btn, .ai-chat-trigger-btn, .star-item";
-
-  document.addEventListener("mouseover", (e) => {
-    if (e.target.closest(interactiveTargets)) {
-      cursorDot.classList.add("cursor-hover");
-    }
-  });
-
-  document.addEventListener("mouseout", (e) => {
-    if (e.target.closest(interactiveTargets)) {
-      cursorDot.classList.remove("cursor-hover");
-    }
-  });
 
   // =========================================================================
-  // 2. DESKTOP 3 LARGE TRANSLUCENT GLOWING ORBS ON CLICK
+  // 2. 3 LARGE TRANSLUCENT GLOWING ORBS (DESKTOP CLICK & MOBILE SMART TAP)
   // =========================================================================
   const ORB_PALETTES = [
     { bg: "rgba(0, 243, 255, 0.55)", shadow: "rgba(0, 243, 255, 0.45)" },   // Cyan
@@ -74,23 +70,22 @@
   ];
 
   const activeOrbs = [];
-  const MAX_ACTIVE_ORBS = 12; // Auto-recycle FIFO limit
+  const MAX_ACTIVE_ORBS = 9; // Strict FIFO limit for instant clean recycling
 
   function spawnSoftOrbs(x, y) {
-    // Spawn exactly 3 large translucent glowing dots
     const orbCount = 3;
     const baseAngle = Math.random() * Math.PI * 2;
 
     for (let i = 0; i < orbCount; i++) {
       const angle = baseAngle + (i * (Math.PI * 2 / orbCount)) + (Math.random() * 0.4 - 0.2);
-      const distance = Math.floor(Math.random() * 20) + 26; // 26px - 46px drifting radius
+      const distance = Math.floor(Math.random() * 20) + 24; // 24px - 44px gentle drifting
       const tx = Math.round(Math.cos(angle) * distance);
       const ty = Math.round(Math.sin(angle) * distance);
 
-      // Large diameter: 20px to 32px
+      // Large diameter (20px to 32px)
       const size = Math.floor(Math.random() * 12) + 20;
       const palette = ORB_PALETTES[Math.floor(Math.random() * ORB_PALETTES.length)];
-      const opacity = (Math.random() * 0.15 + 0.4).toFixed(2); // Low opacity (0.40 - 0.55)
+      const opacity = (Math.random() * 0.15 + 0.4).toFixed(2); // Translucent 0.40 - 0.55
 
       const orb = document.createElement("div");
       orb.className = "click-soft-orb";
@@ -114,17 +109,52 @@
       }, { once: true });
     }
 
-    // Overflow FIFO clean-up
+    // Strict FIFO recycling
     while (activeOrbs.length > MAX_ACTIVE_ORBS) {
       const oldest = activeOrbs.shift();
       if (oldest && oldest.parentNode) oldest.remove();
     }
   }
 
-  // Trigger only on desktop mouse click
+  // A. Desktop Mouse Click Listener
   document.addEventListener("mousedown", (e) => {
-    if (e.clientX && e.clientY) {
+    // Only on mouse left-click and non-touch
+    if (!isTouchDevice && e.clientX && e.clientY && e.button === 0) {
       spawnSoftOrbs(e.clientX, e.clientY);
+    }
+  }, { passive: true });
+
+  // B. Mobile Smart Tap Listener (Zero Scroll Interference)
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchStartTime = 0;
+  let isTouchMoving = false;
+
+  document.addEventListener("touchstart", (e) => {
+    if (e.touches && e.touches[0]) {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      touchStartTime = Date.now();
+      isTouchMoving = false;
+    }
+  }, { passive: true });
+
+  document.addEventListener("touchmove", (e) => {
+    if (e.touches && e.touches[0]) {
+      const moveX = e.touches[0].clientX;
+      const moveY = e.touches[0].clientY;
+      // If user moved more than 8px, it is a scroll/swipe, not a tap
+      if (Math.hypot(moveX - touchStartX, moveY - touchStartY) > 8) {
+        isTouchMoving = true;
+      }
+    }
+  }, { passive: true });
+
+  document.addEventListener("touchend", () => {
+    const elapsed = Date.now() - touchStartTime;
+    // Trigger ONLY on a genuine, stationary tap (<300ms, <8px movement)
+    if (!isTouchMoving && elapsed < 300) {
+      spawnSoftOrbs(touchStartX, touchStartY);
     }
   }, { passive: true });
 })();
