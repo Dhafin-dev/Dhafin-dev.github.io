@@ -1,5 +1,5 @@
 /* ==========================================================================
-   DYNAMIC GUESTBOOK (100% LIVE SUPABASE DATABASE - NO DUMMY DATA)
+   DYNAMIC GUESTBOOK (100% LIVE SUPABASE DATABASE - ZERO DUMMY CACHE)
    Ahmad Dhafin Al Farisy - Portfolio
    ========================================================================== */
 
@@ -14,7 +14,19 @@
 
   if (!form || !feed) return;
 
-  const STORAGE_KEY = "dhafin_guestbook_pure_supabase_v1";
+  // Clear ALL previous legacy dummy cache keys from user browsers
+  const legacyKeys = [
+    "dhafin_portfolio_guestbook",
+    "dhafin_portfolio_guestbook_v2",
+    "dhafin_portfolio_guestbook_v3",
+    "dhafin_portfolio_guestbook_live_v1",
+    "dhafin_guestbook_pure_supabase_v1"
+  ];
+  legacyKeys.forEach(k => {
+    try { localStorage.removeItem(k); } catch (e) {}
+  });
+
+  const STORAGE_KEY = "dhafin_supabase_live_data_v2";
 
   // Avatar Gradient Palettes
   const AVATAR_GRADIENTS = [
@@ -56,9 +68,8 @@
 
   function formatTimeAgo(timestamp) {
     if (!timestamp) return "Baru saja";
-    const now = Date.now();
     const timeMs = typeof timestamp === "number" ? timestamp : new Date(timestamp).getTime();
-    const diffSec = Math.floor((now - timeMs) / 1000);
+    const diffSec = Math.floor((Date.now() - timeMs) / 1000);
 
     if (diffSec < 60) return "Baru saja";
     if (diffSec < 3600) return `${Math.floor(diffSec / 60)} menit yang lalu`;
@@ -171,7 +182,7 @@
       }
     }
 
-    // Direct REST API fallback if JS client is busy
+    // Direct REST API fallback
     try {
       const res = await fetch(`${sbUrl}/rest/v1/guestbook?select=*&order=created_at.desc`, {
         headers: {
@@ -181,13 +192,14 @@
       });
       if (res.ok) {
         const data = await res.json();
-        saveLocalEntries(data);
-        renderFeed(data);
-        return;
+        if (Array.isArray(data)) {
+          saveLocalEntries(data);
+          renderFeed(data);
+          return;
+        }
       }
     } catch (e) {}
 
-    // Offline cache fallback
     renderFeed(getLocalEntries());
   }
 
@@ -293,8 +305,7 @@
           body: JSON.stringify(newEntry)
         });
       }
-      // Re-fetch to synchronize real Supabase IDs & timestamps
-      setTimeout(fetchLiveEntries, 800);
+      setTimeout(fetchLiveEntries, 500);
     } catch (err) {
       console.error("Supabase live save error:", err);
     }
@@ -312,9 +323,9 @@
     }
   });
 
-  // Initial Real Data Fetch
+  // Fetch only real live data from Supabase on start
   fetchLiveEntries();
 
-  // Periodic Auto-Sync with Supabase every 15 seconds
+  // Auto-sync every 15 seconds
   setInterval(fetchLiveEntries, 15000);
 })();
