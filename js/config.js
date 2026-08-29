@@ -23,7 +23,7 @@ const PORTFOLIO_CONFIG = {
     geminiKey: atob("QVEuQWI4Uk42S1praE9vN0FTOFFjbGVTMHJLVlpZR3Z6Q2F2NXo1VllHcUR2UFdFdHNZbkE="),
     emailJsServiceId: "service_kty4a8s",
     supabasePublishableKey: "sb_publishable_hai8DQrHTtgFkIJIKHk6pA_oPFUV6ur",
-    supabaseUrl: "" // Optional if connected
+    supabaseUrl: "https://mhktrsdaehrdkrviklws.supabase.co"
   },
 
   // Timeline / Journey Data
