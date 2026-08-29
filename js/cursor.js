@@ -1,166 +1,83 @@
 /* ==========================================================================
-   CUSTOM CURSOR & LIGHTWEIGHT MULTI-COLOR CLICK PARTICLE EFFECT
+   CUSTOM CURSOR & GPU-ACCELERATED ZERO-LAG CLICK SPARK ENGINE
    Ahmad Dhafin Al Farisy - Portfolio
    ========================================================================== */
 
-(function initCursorAndClickParticles() {
+(function initCursorAndGPUClickEffect() {
   // =========================================================================
-  // 1. ULTRA-LIGHTWEIGHT CLICK PARTICLE & SHOCKWAVE ENGINE (UNIVERSAL)
+  // 1. GPU-ACCELERATED CLICK SPARK & RIPPLE ENGINE (ZERO CPU OVERHEAD)
   // =========================================================================
-  const canvas = document.createElement("canvas");
-  canvas.id = "clickParticleCanvas";
-  canvas.style.cssText = "position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:9999999;";
-  document.documentElement.appendChild(canvas);
-
-  const ctx = canvas.getContext("2d", { alpha: true });
-
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  resizeCanvas();
-  window.addEventListener("resize", resizeCanvas, { passive: true });
-
-  const PARTICLE_COLORS = [
+  const SPARK_COLORS = [
     "#00f3ff", // Cyber Cyan
     "#3b82f6", // Electric Blue
     "#f59e0b", // Royal Gold
     "#bc13fe", // Neon Purple
     "#10b981", // Emerald Mint
-    "#ff007f", // Neon Pink
-    "#ffffff"  // Pure White Spark
+    "#ff007f"  // Neon Pink
   ];
 
-  const particles = [];
-  const shockwaves = [];
-  let isLoopRunning = false;
+  const activeDomNodes = [];
+  const MAX_DOM_NODES = 16; // Strict FIFO limit: Even with 100 rapid clicks, DOM never exceeds 16 elements
 
-  class ClickParticle {
-    constructor(x, y) {
-      this.x = x;
-      this.y = y;
-      const angle = Math.random() * Math.PI * 2;
-      const speed = Math.random() * 5.5 + 2.5; // Smooth radiant speed
-      this.vx = Math.cos(angle) * speed;
-      this.vy = Math.sin(angle) * speed;
-      this.radius = Math.random() * 2.5 + 2.5; // Visible radius (2.5 - 5px)
-      this.color = PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)];
-      this.alpha = 1.0;
-      this.decay = Math.random() * 0.024 + 0.02; // ~500-600ms lifespan
-      this.gravity = 0.12;
-      this.friction = 0.94;
-    }
+  function spawnGpuSpark(x, y) {
+    // 1. Pick a random neon color
+    const color = SPARK_COLORS[Math.floor(Math.random() * SPARK_COLORS.length)];
 
-    update() {
-      this.vx *= this.friction;
-      this.vy = this.vy * this.friction + this.gravity;
-      this.x += this.vx;
-      this.y += this.vy;
-      this.alpha -= this.decay;
-      if (this.radius > 0.5) this.radius -= 0.03;
-    }
+    // 2. Create Expanding Glow Ring
+    const ring = document.createElement("div");
+    ring.className = "click-ripple-ring";
+    ring.style.left = `${x}px`;
+    ring.style.top = `${y}px`;
+    ring.style.setProperty("--ring-color", color);
+    document.body.appendChild(ring);
+    activeDomNodes.push(ring);
 
-    draw(ctx) {
-      if (this.alpha <= 0) return;
-      ctx.save();
-      ctx.globalAlpha = Math.max(0, this.alpha);
-      ctx.fillStyle = this.color;
-      ctx.shadowColor = this.color;
-      ctx.shadowBlur = 10;
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, Math.max(0.5, this.radius), 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-    }
-  }
+    ring.addEventListener("animationend", () => {
+      ring.remove();
+      const idx = activeDomNodes.indexOf(ring);
+      if (idx > -1) activeDomNodes.splice(idx, 1);
+    }, { once: true });
 
-  class Shockwave {
-    constructor(x, y) {
-      this.x = x;
-      this.y = y;
-      this.radius = 4;
-      this.maxRadius = 32;
-      this.alpha = 0.8;
-      this.color = PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)];
-    }
+    // 3. Create 4 Radiant Micro Sparks (N, E, S, W diagonal directions)
+    const angles = [0.78, 2.35, 3.92, 5.49]; // 45deg, 135deg, 225deg, 315deg
+    angles.forEach(ang => {
+      const dist = Math.floor(Math.random() * 16) + 18; // 18-34px travel distance
+      const dx = Math.round(Math.cos(ang) * dist);
+      const dy = Math.round(Math.sin(ang) * dist);
 
-    update() {
-      this.radius += 2.4;
-      this.alpha -= 0.045;
-    }
+      const spark = document.createElement("div");
+      spark.className = "click-micro-spark";
+      spark.style.left = `${x}px`;
+      spark.style.top = `${y}px`;
+      spark.style.setProperty("--spark-color", color);
+      spark.style.setProperty("--dx", `${dx}px`);
+      spark.style.setProperty("--dy", `${dy}px`);
+      document.body.appendChild(spark);
+      activeDomNodes.push(spark);
 
-    draw(ctx) {
-      if (this.alpha <= 0) return;
-      ctx.save();
-      ctx.globalAlpha = Math.max(0, this.alpha);
-      ctx.strokeStyle = this.color;
-      ctx.shadowColor = this.color;
-      ctx.shadowBlur = 8;
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.restore();
+      spark.addEventListener("animationend", () => {
+        spark.remove();
+        const idx = activeDomNodes.indexOf(spark);
+        if (idx > -1) activeDomNodes.splice(idx, 1);
+      }, { once: true });
+    });
+
+    // 4. FIFO Overflow Protection: Clean up oldest if rapid clicking occurs
+    while (activeDomNodes.length > MAX_DOM_NODES) {
+      const oldest = activeDomNodes.shift();
+      if (oldest && oldest.parentNode) oldest.remove();
     }
   }
 
-  function emitBurst(x, y) {
-    const count = 12 + Math.floor(Math.random() * 5); // 12-16 particles
-    for (let i = 0; i < count; i++) {
-      particles.push(new ClickParticle(x, y));
-    }
-    shockwaves.push(new Shockwave(x, y));
-
-    if (!isLoopRunning) {
-      isLoopRunning = true;
-      requestAnimationFrame(particleLoop);
-    }
-  }
-
-  function particleLoop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Shockwaves
-    for (let i = shockwaves.length - 1; i >= 0; i--) {
-      const sw = shockwaves[i];
-      sw.update();
-      sw.draw(ctx);
-      if (sw.alpha <= 0 || sw.radius >= sw.maxRadius) {
-        shockwaves.splice(i, 1);
-      }
-    }
-
-    // Particles
-    for (let i = particles.length - 1; i >= 0; i--) {
-      const p = particles[i];
-      p.update();
-      p.draw(ctx);
-      if (p.alpha <= 0) {
-        particles.splice(i, 1);
-      }
-    }
-
-    if (particles.length > 0 || shockwaves.length > 0) {
-      requestAnimationFrame(particleLoop);
-    } else {
-      isLoopRunning = false;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
-  }
-
-  // Global listeners for clicks and touches
-  document.addEventListener("mousedown", (e) => {
-    emitBurst(e.clientX, e.clientY);
-  }, { passive: true });
-
-  document.addEventListener("touchstart", (e) => {
-    if (e.touches && e.touches[0]) {
-      emitBurst(e.touches[0].clientX, e.touches[0].clientY);
+  // Instant trigger on click or touch (0ms latency, zero cooldown)
+  document.addEventListener("pointerdown", (e) => {
+    if (e.clientX && e.clientY) {
+      spawnGpuSpark(e.clientX, e.clientY);
     }
   }, { passive: true });
 
   // =========================================================================
-  // 2. DESKTOP GLOW BULB CURSOR (HOVER DEVICES ONLY)
+  // 2. DESKTOP GLOW CURSOR (NON-TOUCH SCREENS ONLY)
   // =========================================================================
   const isTouchDevice = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
 

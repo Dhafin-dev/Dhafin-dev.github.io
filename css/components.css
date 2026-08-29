@@ -1363,3 +1363,57 @@
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   padding-top: 24px;
 }
+
+/* --------------------------------------------------------------------------
+   14. GPU-ACCELERATED CLICK RIPPLE & MICRO SPARK EFFECTS (ZERO-LAG)
+   -------------------------------------------------------------------------- */
+.click-ripple-ring {
+  position: fixed;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999999;
+  border: 2px solid var(--ring-color, #00f3ff);
+  box-shadow: 0 0 10px var(--ring-color, #00f3ff);
+  transform: translate3d(-50%, -50%, 0) scale(0.2);
+  animation: clickRippleAnim 0.4s cubic-bezier(0.15, 0.9, 0.25, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.click-micro-spark {
+  position: fixed;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999999;
+  background: var(--spark-color, #00f3ff);
+  box-shadow: 0 0 8px var(--spark-color, #00f3ff);
+  transform: translate3d(-50%, -50%, 0) translate3d(0, 0, 0) scale(1);
+  animation: clickSparkAnim 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes clickRippleAnim {
+  0% {
+    transform: translate3d(-50%, -50%, 0) scale(0.2);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate3d(-50%, -50%, 0) scale(1.6);
+    opacity: 0;
+  }
+}
+
+@keyframes clickSparkAnim {
+  0% {
+    transform: translate3d(-50%, -50%, 0) translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(-50%, -50%, 0) translate3d(var(--dx), var(--dy), 0) scale(0);
+    opacity: 0;
+  }
+}
+
