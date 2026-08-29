@@ -923,6 +923,19 @@
 /* --------------------------------------------------------------------------
    10. GUESTBOOK & CONTACT SECTION
    -------------------------------------------------------------------------- */
+.contact-guestbook-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  align-items: start;
+}
+
+.contact-card, .guestbook-card {
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+}
+
 .star-rating-select {
   display: inline-flex;
   align-items: center;
