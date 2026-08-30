@@ -4,13 +4,14 @@
    ========================================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
-  // 1. Initialize AOS (Animate on Scroll)
+  // 1. Initialize AOS (Animate on Scroll) with Rollback Effect on Scroll Up
   if (typeof AOS !== "undefined") {
     AOS.init({
       duration: 800,
       easing: "ease-out-cubic",
-      once: true,
-      offset: 60
+      once: false,
+      mirror: true,
+      offset: 80
     });
   }
 
