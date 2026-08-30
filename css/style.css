@@ -150,11 +150,12 @@ section {
   font-size: 0.95rem;
   cursor: pointer;
   border: 1px solid transparent;
-  transition: all var(--transition-normal);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
   text-decoration: none;
   position: relative;
   overflow: hidden;
   z-index: 1;
+  will-change: transform;
 }
 
 .btn-primary {
@@ -165,7 +166,6 @@ section {
 }
 
 .btn-primary:hover {
-  transform: translateY(-3px);
   box-shadow: var(--glow-cyan-lg);
   color: #000;
 }
@@ -182,7 +182,6 @@ section {
   background: rgba(255, 255, 255, 0.1);
   border-color: var(--accent-cyan);
   color: var(--accent-cyan);
-  transform: translateY(-3px);
   box-shadow: 0 10px 25px rgba(0, 243, 255, 0.15);
 }
 
