@@ -406,8 +406,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  perspective: 1200px;
-  transform-style: preserve-3d;
 }
 
 .hero-avatar-frame {
@@ -419,9 +417,10 @@
   border: 2px solid rgba(255, 255, 255, 0.14);
   background: var(--bg-surface);
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
-  transform-style: preserve-3d;
   will-change: transform, border-color, box-shadow;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .hero-avatar-frame:hover {
@@ -450,7 +449,6 @@
   filter: blur(50px);
   z-index: -1;
   pointer-events: none;
-  will-change: transform;
   animation: pulseGlow 6s infinite alternate ease-in-out;
 }
 
@@ -459,11 +457,11 @@
   100% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
 }
 
-/* Floating Badges on Hero */
+/* Floating Badges on Hero (Always on Top Layer) */
 .floating-hero-badge {
   position: absolute;
   padding: 10px 16px;
-  background: rgba(10, 15, 28, 0.85);
+  background: rgba(10, 15, 28, 0.88);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border-light);
@@ -471,9 +469,8 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-  z-index: 3;
-  transform-style: preserve-3d;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  z-index: 10;
   will-change: transform;
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
   animation: floatBadge 4s infinite alternate ease-in-out;
