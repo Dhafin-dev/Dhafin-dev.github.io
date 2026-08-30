@@ -429,16 +429,6 @@
   box-shadow: 0 35px 90px rgba(0, 0, 0, 0.7), var(--glow-cyan);
 }
 
-.avatar-specular-glare {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 2;
-  transition: background 0.15s ease-out;
-  mix-blend-mode: overlay;
-}
-
 .hero-avatar-img {
   width: 100%;
   height: 100%;
