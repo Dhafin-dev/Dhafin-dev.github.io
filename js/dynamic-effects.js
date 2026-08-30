@@ -149,7 +149,7 @@
   }
 
   // =========================================================================
-  // 3. MAGNETIC SNAPPING PHYSICS FOR BUTTONS & SOCIAL ICONS
+  // 3. GENTLE MAGNETIC SNAPPING PHYSICS FOR BUTTONS & SOCIAL ICONS
   // =========================================================================
   function initMagneticButtons() {
     if (isTouchDevice) return;
@@ -163,16 +163,18 @@
       let rafMagnetic = null;
 
       function renderMagnetic() {
-        const ease = 0.2;
+        // Gentle spring ease (0.08) for smooth, non-abrupt gliding
+        const ease = 0.08;
         currentX += (targetX - currentX) * ease;
         currentY += (targetY - currentY) * ease;
 
         btn.style.transform = `translate3d(${currentX.toFixed(2)}px, ${currentY.toFixed(2)}px, 0)`;
 
-        if (isHovered || Math.abs(currentX) > 0.1 || Math.abs(currentY) > 0.1) {
+        if (isHovered || Math.abs(currentX) > 0.05 || Math.abs(currentY) > 0.05) {
           rafMagnetic = requestAnimationFrame(renderMagnetic);
         } else {
           btn.style.transform = "";
+          btn.style.transition = "";
           rafMagnetic = null;
         }
       }
@@ -182,10 +184,15 @@
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
 
-        // Snapping strength (0.28 factor for subtle, elegant magnetic pull)
-        targetX = (e.clientX - centerX) * 0.28;
-        targetY = (e.clientY - centerY) * 0.28;
+        // Subtle displacement factor (0.12) with a strict maximum limit of +/- 6px
+        const maxOffset = 6;
+        const rawX = (e.clientX - centerX) * 0.12;
+        const rawY = (e.clientY - centerY) * 0.12;
 
+        targetX = Math.max(-maxOffset, Math.min(maxOffset, rawX));
+        targetY = Math.max(-maxOffset, Math.min(maxOffset, rawY));
+
+        btn.style.transition = "none";
         isHovered = true;
         if (!rafMagnetic) rafMagnetic = requestAnimationFrame(renderMagnetic);
       }, { passive: true });
